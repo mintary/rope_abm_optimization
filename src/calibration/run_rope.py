@@ -73,13 +73,13 @@ def run(ctx,
     df = process_parameters_from_csv(sensitivity_analysis_csv)
     params = extract_n_parameters(df, ranking_method=param_ranking, n=param_num)
 
-    # Convert params into spotpy parameter objects
+    # Convert params into spotpy parameter objects, ensuring float types
     spotpy_params = [
         spotpy.parameter.Uniform(
-            name=row['parameter_number'],
-            low=row['lower_bound'],
-            high=row['upper_bound'],
-            optguess=row['default_value']
+            name=str(row['parameter_number']),
+            low=float(row['lower_bound']),
+            high=float(row['upper_bound']),
+            optguess=float(row['default_value'])
         ) for _, row in params.iterrows()
     ]
 
